@@ -4,44 +4,46 @@ import cv2
 
 
 def decode(im):
+    '''
+    :param im: cv2.imread results
+    :return: pyzar.decode results, [{data, width, height}]
+    '''
     # Find barcodes and QR codes
     decodedObjects = pyzbar.decode(im)
 
+    qr_info = []
     # Print results
     for obj in decodedObjects:
         print('Type : ', obj.type)
         print('Data : ', obj.data, '\n')
+        qr_info.append({"data": obj.data, "width": obj.rect.width, "height": obj.rect.height})
 
-    return decodedObjects
+    return decodedObjects, qr_info
 
 
 def display(im, decodedObjects):
     '''
     :param im: image
     :param decodedObjects: pyzbar.decode results
-    :return: list of bounding coordinates
-    also prints qr code bounding box
+    prints qr code bounding box
     '''
-    points = []
     # Loop over all decoded objects
     for decodedObject in decodedObjects:
         rect = decodedObject.rect
 
-        current_points = [(rect[0], rect[1]), (rect[0] + rect[2], rect[1]),
-                          (rect[0] + rect[2], rect[1] + rect[3]), (rect[0], rect[1] + rect[3])]
-        points.append(current_points)
+        points = [(rect[0], rect[1]), (rect[0] + rect[2], rect[1]),
+                  (rect[0] + rect[2], rect[1] + rect[3]), (rect[0], rect[1] + rect[3])]
 
         # Number of points in the convex hull
-        n = len(current_points)
+        n = len(points)
 
         # Draw the convext hull
         for j in range(0, n):
-            cv2.line(im, current_points[j], current_points[(j + 1) % n], (255, 0, 0), 3)
+            cv2.line(im, points[j], points[(j + 1) % n], (255, 0, 0), 3)
 
     # Display results
     cv2.imshow("Results", im)
     cv2.waitKey(0)
-    return points
 
 
 # Main
@@ -49,5 +51,5 @@ if __name__ == '__main__':
     # Read image
     im = cv2.imread('test_qr_code.PNG')
 
-    decodedObjects = decode(im)
-    points = display(im, decodedObjects)
+    decodedObjects, qr_info = decode(im)
+    display(im, decodedObjects)
