@@ -21,5 +21,6 @@ dependencies:
   - zlib=1.2.11=h8395fce_2
   - pip:
     - pyzbar==0.1.5
+    - imutils==0.4.5
 prefix: C:\Users\emily\Anaconda3\envs\MTE201_Project
 
