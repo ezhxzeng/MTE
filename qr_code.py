@@ -11,12 +11,17 @@ def decode(im):
     # Find barcodes and QR codes
     decodedObjects = pyzbar.decode(im)
 
-    # qr_info = []
-    # Print results
-    for obj in decodedObjects:
-        print('Type : ', obj.type)
-        print('Data : ', obj.data, '\n')
-        qr_info = {"data": obj.data, "width": obj.rect.width, "height": obj.rect.height}
+    if len(decodedObjects) >1:
+        return decodedObjects, {0}
+
+    print('Type : ', decodedObjects[0].type)
+    print('Data : ', decodedObjects[0].data, '\n')
+
+    rect = decodedObjects[0].rect
+    qr_info = {"data": int(decodedObjects[0].data), "width": rect.width,
+               "height": rect.height, "points": [(rect[0], rect[1]), (rect[0] + rect[2], rect[1]),
+                                                 (rect[0] + rect[2], rect[1] + rect[3]),
+                                                 (rect[0], rect[1] + rect[3])]}
 
     return decodedObjects, qr_info
 
@@ -30,7 +35,7 @@ def display(im, decodedObjects):
     # Loop over all decoded objects
     for decodedObject in decodedObjects:
         rect = decodedObject.rect
-        print (decodedObject)
+        print(decodedObject)
 
         points = [(rect[0], rect[1]), (rect[0] + rect[2], rect[1]),
                   (rect[0] + rect[2], rect[1] + rect[3]), (rect[0], rect[1] + rect[3])]
