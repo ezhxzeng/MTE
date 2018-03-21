@@ -22,4 +22,7 @@ if __name__ == '__main__':
     # qr_code.display(im, decodedObjects)
 
     # Measure 
-    object_size.objsize(im, qr_info)
+    if abs(1-(qr_info["width"]/qr_info["height"])) < 0.05:
+        object_size.objsize(im, qr_info)
+    else:
+        print("Image is not aligned")
