@@ -1,5 +1,6 @@
 # adapted from pyimagesearch.com 
 # import the necessary packages
+
 from scipy.spatial import distance as dist
 from imutils import perspective
 from imutils import contours
@@ -42,7 +43,7 @@ def objsize(img, qr_info):
                             cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if imutils.is_cv2() else cnts[1]
 
-    if type(qr_info['data'] != int):
+    if type(qr_info['data']) != int:
         print("error type in qr_info['data']")
         return
 
@@ -112,11 +113,11 @@ def objsize(img, qr_info):
 
         # draw the object sizes on the image
         # cyan
-        cv2.putText(orig, "{:.1f}mm".format(dimA),
+        cv2.putText(orig, "{:.2f}in".format(dimA),
                     (int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
                     0.6, (255, 255, 0), 2)
         # magenta
-        cv2.putText(orig, "{:.1f}mm".format(dimB),
+        cv2.putText(orig, "{:.2f}in".format(dimB),
                     (int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
                     0.6, (255, 0, 255), 2)
 

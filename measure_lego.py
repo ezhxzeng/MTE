@@ -16,7 +16,7 @@ import object_size
 # Main
 if __name__ == '__main__':
     # Read image
-    im = cv2.imread('test_qr_code.PNG')
+    im = cv2.imread('test1.jpg')
 
     decodedObjects, qr_info = qr_code.decode(im)
     # qr_code.display(im, decodedObjects)
