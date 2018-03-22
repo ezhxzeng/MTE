@@ -122,7 +122,8 @@ def objsize(img, qr_info):
                     0.6, (255, 0, 255), 2)
 
         # show the output image
-        cv2.imshow("Image", orig)
+        cv2.namedWindow("Display Window", cv2.WINDOW_NORMAL)
+        cv2.imshow("Display Window", orig)
         cv2.waitKey(0)
 
     return
